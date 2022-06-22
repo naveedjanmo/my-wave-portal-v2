@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@font-face {
+    font-family: "ES Rebond Grotesque";
+    font-weight: 600;
+    src: url(/public/fonts/ESRebondGrotesque-Semibold.ttf);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    min-height: 100vh;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: 600;
+    padding-bottom: 8px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 22px;
+}
+
+.body-big {
+    font-size: 18px;
+    font-weight: 400;
+    color: #6A6A6A;
+}
+
+header {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    font-size: 16px;
+    padding: 48px 64px;
+    height: 80px;
+
+    border-bottom: 2px solid #F2F2F2;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-wrap {
+    font-family: 'ES Rebond Grotesque';
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.nav-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+}
+
+header button.connect {
+    padding: 10px 16px;
+    height: 40px;
+    background: #8F37FF;
+    border-radius: 12px;
+    border: none;
+
+    cursor: pointer;
+
+    color: #FFFFFF;
+    font-weight: 600;
+    line-height: 1;
+}
+
+header button.menu {
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+
+    background: #F2F2F2;
+    border-radius: 12px;
+    border: none;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+}
+
+.mainContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 64px 0 128px 0;
+}
+
+.dataContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 600px;
+}
+
+.introWrap {
+    margin-bottom: 56px;
+}
+
+.waveButton {
+  cursor: pointer;
+  margin-top: 16px;
+  padding: 8px;
+  height: 48px;
+  border: 0;
+  border-radius: 16px;
+  background: linear-gradient(45deg, #4158D0 -8.56%, #C850C0 50.53%, #FFCC70 113.44%);
+  
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #fff;
+
+}
+
+.connected {
+  cursor: default;
+  margin-top: 16px;
+  padding: 8px;
+  border: 0;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  font-size: 14px;
+}
+
+.waveWrap {
+    margin-bottom: 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.textWrapper {
+    position: relative;
+}
+
+.textWrapper label {
+    position:absolute;
+    top:-8px;
+    left:20px;
+
+    font-size: 12px;
+    font-weight: 600;
+    color: #000000;
+
+    padding: 0 4px;
+    background-color:white;
+    
+}
+
+.textWrapper textarea {
+	display: block;
+	box-sizing: border-box;
+	padding: 12px;
+	width: 100%;
+	height: 128px;
+	border: 2px solid #000000;
+	border-radius: 16px;
+	font-family: inherit;
+	font-size: 14px;
+}
+
+.separator {
+    width: 100%;
+    height: 1px;
+    
+    background-color: #E0E0E0;
+
+    margin-bottom: 56px;
+}
+
+.waveCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 24px;
+  gap: 24px;
+  
+  margin-bottom: 16px;
+
+  border: 1px solid #DFDFDF;
+  border-radius: 16px;
+}
+
+.waveCard img {
+  width: 40px;
+}
+
+.waveCardWrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.waveTimestamp {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 8px;
+    
+  color: #C850C0;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.waveTimestamp div {
+    width: 8px;
+    height: 8px;
+
+    margin-right: 8px;
+
+    border-radius: 50%;
+    background-color: #C850C0 ;
+}
+
+.waveContent {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.waveMessage {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.waveAddressWrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+  padding: 12px 8px;
+  background: #F2F2F2;
+  border-radius: 100px;
+}
+
+.waveAddress {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 0;
+
+    color: #6A6A6A;
+
+}

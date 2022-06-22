@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
+import dayjs from 'dayjs';
+
 import { ethers } from 'ethers';
+
 import abi from './utils/WavePortal.json';
+
+import './styles/base.css';
+import './styles/globals.css';
+
+import Logo from './components/Logo';
+import Nav from './components/Nav';
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState('');
@@ -142,52 +150,82 @@ const App = () => {
     getAllWaves();
   }, []);
 
+  function formatDate(timestamp) {
+    return dayjs(timestamp).format('DD MMMM YYYY');
+  }
+
   return (
-    <div className="mainContainer">
-      <div className="dataContainer">
-        <div className="header">👋 Hey there!</div>
-
-        <div className="bio">
-          I am farza and I worked on self-driving cars so that's pretty cool
-          right? Connect your Ethereum wallet and wave at me!
-        </div>
-
-        <button className="waveButton" onClick={() => wave(message)}>
-          Wave at Me
-        </button>
-
-        {/*
-         * If there is no currentAccount render this button
-         */}
-        {!currentAccount ? (
-          <button className="waveButton" onClick={connectWallet}>
-            Connect Wallet
-          </button>
-        ) : (
-          <button className="connected">{contractAddress}</button>
-        )}
-
-        <div className="textWrapper">
-          <label htmlFor="message">Write your message below:</label>
-          <textarea
-            id="message"
-            className=""
-            value={message}
-            onChange={(ev) => setMessage(ev.target.value)}
-          />
-        </div>
-
-        {allWaves.map((wave, index) => {
-          return (
-            <div className="waveCard" key={index}>
-              <div>Address: {wave.address}</div>
-              <div>Time: {wave.timestamp.toString()}</div>
-              <div>Message: {wave.message}</div>
+    <>
+      <header>
+        <Logo />
+        <Nav />
+      </header>
+      <section className="mainContainer">
+        <div className="dataContainer">
+          <div className="introWrap">
+            <h1>Welcome to the waveportal!</h1>
+            <div className="body-big">
+              Use this site to wave at me through the Ethereum blockchain! Maybe
+              include a message too?
             </div>
-          );
-        })}
-      </div>
-    </div>
+          </div>
+
+          <div className="waveWrap">
+            <div className="textWrapper">
+              <label htmlFor="message">Message</label>
+              <textarea
+                id="message"
+                className=""
+                value={message}
+                onChange={(ev) => setMessage(ev.target.value)}
+              />
+            </div>
+
+            {/*
+             * If there is no currentAccount render this button
+             */}
+            {!currentAccount ? (
+              <button className="waveButton" onClick={connectWallet}>
+                Connect Wallet
+              </button>
+            ) : (
+              // <button className="connected">{contractAddress}</button>
+              <button className="waveButton" onClick={() => wave(message)}>
+                Wave at me
+              </button>
+            )}
+          </div>
+
+          <div className="separator"></div>
+
+          <h2>Waves</h2>
+
+          {allWaves.map((wave, index, timestamp) => {
+            return (
+              <div className="waveCard" key={index}>
+                <img src="/wave-emoji.png" alt="wave emoji"></img>
+                <div className="waveCardWrap">
+                  <div className="waveTimestamp">
+                    <div></div>
+                    {formatDate(wave.timestamp.toString())}
+                  </div>
+                  <div className="waveContent">
+                    <div className="waveMessage">{wave.message}</div>
+                    <div className="waveAddressWrap">
+                      <div className="waveAddress">{wave.address}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* <div>Address: {wave.address}</div>
+                <div>Time: {wave.timestamp.toString()}</div>
+                <div>Message: {wave.message}</div> */}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    </>
   );
 };
 
