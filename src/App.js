@@ -232,12 +232,12 @@ const App = () => {
                 </button>
               )}
             </div>
+            <div className="separator"></div>
 
-            {allWaves.map((wave, index) => {
-              return (
-                <div className="waveList">
-                  <div className="separator"></div>
-                  <h2>Waves</h2>
+            <div className="waveList">
+              <h2>Waves</h2>
+              {allWaves.map((wave, index) => {
+                return (
                   <div className="waveCard" key={index}>
                     <img src="/wave-emoji.png" alt="wave emoji"></img>
                     <div className="waveCardWrap">
@@ -255,9 +255,9 @@ const App = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </section>
       </RainbowKitProvider>
