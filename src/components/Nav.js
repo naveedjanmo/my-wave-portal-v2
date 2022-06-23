@@ -1,12 +1,10 @@
 import React from 'react';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const Nav = function () {
   return (
     <div className="nav-wrap">
-      {/* <button className="connect">Connect Wallet</button>
-      <button className="menu">
-        <img src="/images/DotsThree.svg" alt="menu-icon" />
-      </button> */}
+      <ConnectButton />
     </div>
   );
 };

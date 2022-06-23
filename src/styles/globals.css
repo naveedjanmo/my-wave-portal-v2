@@ -55,6 +55,10 @@ header {
     font-weight: 600;
 }
 
+.ethName {
+    text-decoration: none;
+}
+
 .nav-wrap {
     display: flex;
     align-items: center;
@@ -98,7 +102,7 @@ header button.menu {
   display: flex;
   justify-content: center;
   width: 100%;
-  margin: 64px 0 128px 0;
+  margin: 80px 0 128px 0;
 }
 
 .dataContainer {
@@ -121,12 +125,15 @@ header button.menu {
   border-radius: 16px;
   background: linear-gradient(45deg, #4158D0 -8.56%, #C850C0 50.53%, #FFCC70 113.44%);
   
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
 
   color: #fff;
-
 }
+
+.disabled {
+    opacity: 0.5;
+  }
 
 .connected {
   cursor: default;
@@ -169,11 +176,12 @@ header button.menu {
 	padding: 12px;
 	width: 100%;
 	height: 128px;
-	border: 2px solid #000000;
+	border: 2px solid #dcdcdc;
 	border-radius: 16px;
 	font-family: inherit;
 	font-size: 14px;
 }
+
 
 .separator {
     width: 100%;
@@ -217,14 +225,15 @@ header button.menu {
     
   color: #C850C0;
   font-weight: 600;
+  font-size: 14px;
   text-transform: uppercase;
 }
 
 .waveTimestamp div {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
 
-    margin-right: 8px;
+    margin-right: 6px;
 
     border-radius: 50%;
     background-color: #C850C0 ;

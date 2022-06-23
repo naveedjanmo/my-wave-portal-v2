@@ -1,15 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-
 import { ethers } from 'ethers';
-
 import abi from './utils/WavePortal.json';
 
 import './styles/base.css';
 import './styles/globals.css';
+import '@rainbow-me/rainbowkit/styles.css';
+
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+  lightTheme,
+} from '@rainbow-me/rainbowkit';
+import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { publicProvider } from 'wagmi/providers/public';
 
 import Logo from './components/Logo';
 import Nav from './components/Nav';
+import EthName from './components/EthName';
+
+// TODO
+// 3. Loading when processing transaction
+// 4. Auto-update waves without having to reload the page
+// 5. Form focus state highlight
+// 7. Footer - repo, credit, course
+
+const { chains, provider } = configureChains(
+  [chain.rinkeby],
+  [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()]
+);
+
+const { connectors } = getDefaultWallets({
+  appName: 'My RainbowKit App',
+  chains,
+});
+
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors,
+  provider,
+});
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState('');
@@ -45,27 +76,27 @@ const App = () => {
   };
 
   /**
-   * Implement your connectWallet method here
+   * Buildspace connect wallet button
    */
-  const connectWallet = async () => {
-    try {
-      const { ethereum } = window;
+  // const connectWallet = async () => {
+  //   try {
+  //     const { ethereum } = window;
 
-      if (!ethereum) {
-        alert('Get MetaMask!');
-        return;
-      }
+  //     if (!ethereum) {
+  //       alert('Get MetaMask!');
+  //       return;
+  //     }
 
-      const accounts = await ethereum.request({
-        method: 'eth_requestAccounts',
-      });
+  //     const accounts = await ethereum.request({
+  //       method: 'eth_requestAccounts',
+  //     });
 
-      console.log('Connected', accounts[0]);
-      setCurrentAccount(accounts[0]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     console.log('Connected', accounts[0]);
+  //     setCurrentAccount(accounts[0]);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const wave = async () => {
     try {
@@ -87,7 +118,6 @@ const App = () => {
          * Execute the actual wave from your smart contract
          */
         const waveTxn = await wavePortalContract.wave(message);
-        // const waveTxn = await wavePortalContract.wave();
         console.log('Mining...', waveTxn.hash);
 
         await waveTxn.wait();
@@ -145,87 +175,93 @@ const App = () => {
     }
   };
 
+  function formatDate(timestamp) {
+    return dayjs(timestamp).format('DD MMMM YYYY');
+  }
+
   useEffect(() => {
     checkIfWalletIsConnected();
     getAllWaves();
   }, []);
 
-  function formatDate(timestamp) {
-    return dayjs(timestamp).format('DD MMMM YYYY');
-  }
-
   return (
-    <>
-      <header>
-        <Logo />
-        <Nav />
-      </header>
-      <section className="mainContainer">
-        <div className="dataContainer">
-          <div className="introWrap">
-            <h1>Welcome to the waveportal!</h1>
-            <div className="body-big">
-              Use this site to wave at me through the Ethereum blockchain! Maybe
-              include a message too?
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider
+        coolMode
+        chains={chains}
+        theme={lightTheme({
+          accentColor: '#C850C0',
+          accentColorForeground: 'white',
+          borderRadius: 'large',
+          fontStack: 'system',
+        })}
+      >
+        <header>
+          <Logo />
+          <Nav />
+        </header>
+        <section className="mainContainer">
+          <div className="dataContainer">
+            <div className="introWrap">
+              <h1>Welcome to the waveportal!</h1>
+              <div className="body-big">
+                Use this site to wave at me through the Ethereum blockchain!
+                Maybe include a message too?
+              </div>
             </div>
-          </div>
 
-          <div className="waveWrap">
-            <div className="textWrapper">
-              <label htmlFor="message">Message</label>
-              <textarea
-                id="message"
-                className=""
-                value={message}
-                onChange={(ev) => setMessage(ev.target.value)}
-              />
+            <div className="waveWrap">
+              <div className="textWrapper">
+                <label htmlFor="message">Message</label>
+                <textarea
+                  id="message"
+                  className=""
+                  value={message}
+                  onChange={(ev) => setMessage(ev.target.value)}
+                />
+              </div>
+
+              {/*
+               * If there is no currentAccount render this button
+               */}
+              {!currentAccount ? (
+                <button className="waveButton disabled">Wave at me</button>
+              ) : (
+                <button className="waveButton" onClick={() => wave(message)}>
+                  Wave at me
+                </button>
+              )}
             </div>
 
-            {/*
-             * If there is no currentAccount render this button
-             */}
-            {!currentAccount ? (
-              <button className="waveButton" onClick={connectWallet}>
-                Connect Wallet
-              </button>
-            ) : (
-              // <button className="connected">{contractAddress}</button>
-              <button className="waveButton" onClick={() => wave(message)}>
-                Wave at me
-              </button>
-            )}
-          </div>
-
-          <div className="separator"></div>
-
-          <h2>Waves</h2>
-
-          {allWaves.map((wave, index, timestamp) => {
-            return (
-              <div className="waveCard" key={index}>
-                <img src="/wave-emoji.png" alt="wave emoji"></img>
-                <div className="waveCardWrap">
-                  <div className="waveTimestamp">
-                    <div></div>
-                    {formatDate(wave.timestamp.toString())}
-                  </div>
-                  <div className="waveContent">
-                    <div className="waveMessage">{wave.message}</div>
-                    <div className="waveAddressWrap">
-                      <div className="waveAddress">{wave.address}</div>
+            {allWaves.map((wave, index) => {
+              return (
+                <div className="waveList">
+                  <div className="separator"></div>
+                  <h2>Waves</h2>
+                  <div className="waveCard" key={index}>
+                    <img src="/wave-emoji.png" alt="wave emoji"></img>
+                    <div className="waveCardWrap">
+                      <div className="waveTimestamp">
+                        <div></div>
+                        {formatDate(wave.timestamp.toString())}
+                      </div>
+                      <div className="waveContent">
+                        <div className="waveMessage">{wave.message}</div>
+                        <div className="waveAddressWrap">
+                          <div className="waveAddress">
+                            <EthName address={wave.address} />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-
-                {/* <div>Address: {wave.address}</div>
-                <div>Time: {wave.timestamp.toString()}</div>
-                <div>Message: {wave.message}</div> */}
-              </div>
-            );
-          })}
-        </div>
-      </section>
-    </>
+              );
+            })}
+          </div>
+        </section>
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
 };
 
